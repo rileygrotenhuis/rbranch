@@ -31,3 +31,29 @@ To get started with this application, follow these steps:
    ```bash
    go mod tidy
    ```
+
+4. **Build Application**: At this point you will want to build the executable for rbranch by running the following command:
+
+    ```bash
+    go build
+    ```
+
+5. **Make Globally Accessible**: The last step in the installation process is to move the newly created executable to your `$PATH`. Run the following command:
+
+    ```bash
+    sudo mv rbranch /usr/local/bin
+    ```
+
+## Usage
+
+### Checkout a Branch
+
+Some description will go here
+
+### Delete a Branch
+
+Some description will go here
+
+### Rebase a Branch
+
+Some description will go here
