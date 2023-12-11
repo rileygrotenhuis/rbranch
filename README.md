@@ -48,12 +48,24 @@ To get started with this application, follow these steps:
 
 ### Checkout a Branch
 
-Some description will go here
+To view a list of all available branches and select one of them to checkout, you can use the default command:
+
+    ```bash
+    rbranch
+    ```
 
 ### Delete a Branch
 
-Some description will go here
+To view a list of all available branches and select one of them to delete, you will need to append the deletion flag
+
+    ```bash
+    rbranch -d
+    ```
 
 ### Rebase a Branch
 
-Some description will go here
+To view a list of all available branches and select one of them to rebase off of, you will need to append the rebase flag
+
+    ```bash
+    rbranch -r
+    ```
