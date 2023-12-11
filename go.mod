@@ -1,4 +1,4 @@
-module github.com/rileygrotenhuis/rg-branch
+module github.com/rileygrotenhuis/rbranch
 
 go 1.21.4
 
