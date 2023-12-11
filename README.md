@@ -1,5 +1,7 @@
 # rbranch
 
+rbranch is a custom CLI tool built using Go that makes performing operations on git branches maybe about 2% easier.
+
 ## Prerequisites
 
 Before you can run this application, ensure you have the following software installed on your system:
