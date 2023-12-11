@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -46,9 +47,10 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 }
 
 type model struct {
-	list     list.Model
-	choice   string
-	quitting bool
+	list      list.Model
+	choice    string
+	quitting  bool
+	operation string
 }
 
 func (m model) Init() tea.Cmd {
@@ -83,13 +85,28 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	if m.choice != "" {
-		exec.Command("git", "checkout", m.choice).Run()
+		executeGitCommand(m.operation, m.choice)
 		return quitTextStyle.Render(fmt.Sprintln())
 	}
 	if m.quitting {
 		return quitTextStyle.Render("Until next time...")
 	}
 	return "\n" + m.list.View()
+}
+
+func executeGitCommand(operation string, branch string) {
+	if operation == "delete" {
+		exec.Command("git", "branch", "-D", branch).Run()
+		return
+	}
+
+	if operation == "rebase" {
+		exec.Command("git", "rebase", branch).Run()
+		return
+	}
+
+	exec.Command("git", "checkout", branch).Run()
+	return
 }
 
 func aggregateBranches(commandOutput []byte) []string {
@@ -121,6 +138,23 @@ func buildSelectionListItems(branches []string) []list.Item {
 	return items
 }
 
+func getGitOperation(deleteFlag *bool, rebaseFlag *bool) string {
+	if *deleteFlag && *rebaseFlag {
+		fmt.Println("fatal: you cannot perform a deletion and rebase at the same time")
+		os.Exit(1)
+	}
+
+	if *deleteFlag {
+		return "git branch -D"
+	}
+
+	if *rebaseFlag {
+		return "git rebase"
+	}
+
+	return "git checkout"
+}
+
 func main() {
 	output, err := exec.Command("git", "branch").CombinedOutput()
 
@@ -136,10 +170,19 @@ func main() {
 	selectionList := list.New(selectionItems, itemDelegate{}, 20, 15)
 	selectionList.Title = "Git Branches:"
 
-	m := model{list: selectionList}
+	deleteFlag := flag.Bool("d", false, "delete git branch")
+	rebaseFlag := flag.Bool("r", false, "rebase git branch")
+	flag.Parse()
+
+	gitOperation := getGitOperation(deleteFlag, rebaseFlag)
+
+	m := model{
+		list:      selectionList,
+		operation: gitOperation,
+	}
 
 	if _, err := tea.NewProgram(m).Run(); err != nil {
-		fmt.Println("FATAL ERROR")
+		fmt.Println("fatal")
 		os.Exit(1)
 	}
 }
