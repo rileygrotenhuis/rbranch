@@ -7,7 +7,7 @@ Before you can run this application, ensure you have the following software inst
 1. **Go**: This application requires the latest version of Go to run. You can download and install Go from the [official website](https://go.dev/dl/). Ensure you have the latest version of Go by running the following command::
 
     ```bash
-    php version
+    go version
     ```
 
 ## Installation
