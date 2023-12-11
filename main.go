@@ -85,8 +85,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	if m.choice != "" {
-		executeGitCommand(m.operation, m.choice)
-		return quitTextStyle.Render(fmt.Sprintln())
+		return executeGitCommand(m.operation, m.choice)
 	}
 	if m.quitting {
 		return quitTextStyle.Render("Until next time...")
