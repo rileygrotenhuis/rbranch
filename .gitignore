@@ -1,0 +1,42 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_vendor/
+bin/
+release/
+
+# Output files
+*.exe
+*.out
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Dependency directories
+vendor/
+Godeps/
+.idea/
+
+# Environment variables file
+.env
+
+# Go specific
+.vscode/
+*.test
+*.prof
+*.pprof
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
