@@ -145,14 +145,14 @@ func getGitOperation(deleteFlag *bool, rebaseFlag *bool) string {
 	}
 
 	if *deleteFlag {
-		return "git branch -D"
+		return "delete"
 	}
 
 	if *rebaseFlag {
-		return "git rebase"
+		return "rebase"
 	}
 
-	return "git checkout"
+	return "checkout"
 }
 
 func main() {
