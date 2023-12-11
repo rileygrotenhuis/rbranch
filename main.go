@@ -94,19 +94,19 @@ func (m model) View() string {
 	return "\n" + m.list.View()
 }
 
-func executeGitCommand(operation string, branch string) {
+func executeGitCommand(operation string, branch string) string {
 	if operation == "delete" {
 		exec.Command("git", "branch", "-D", branch).Run()
-		return
+		return quitTextStyle.Render(fmt.Sprintln("deleted branch: \"" + branch))
 	}
 
 	if operation == "rebase" {
 		exec.Command("git", "rebase", branch).Run()
-		return
+		return quitTextStyle.Render(fmt.Sprintln("rebased off branch: " + branch))
 	}
 
 	exec.Command("git", "checkout", branch).Run()
-	return
+	return quitTextStyle.Render(fmt.Sprintln("checked out branch: " + branch))
 }
 
 func aggregateBranches(commandOutput []byte) []string {
