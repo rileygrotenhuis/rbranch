@@ -87,7 +87,7 @@ func (m model) View() string {
 		return quitTextStyle.Render(fmt.Sprintln())
 	}
 	if m.quitting {
-		return quitTextStyle.Render("Whatever")
+		return quitTextStyle.Render("Until next time...")
 	}
 	return "\n" + m.list.View()
 }
