@@ -177,6 +177,8 @@ func main() {
 
 	selectionList := list.New(selectionItems, itemDelegate{}, WIDTH, HEIGHT)
 	selectionList.Title = "Select a branch to " + gitOperation + ":"
+	selectionList.SetShowStatusBar(false)
+	selectionList.SetFilteringEnabled(false)
 
 	m := model{
 		list:      selectionList,
