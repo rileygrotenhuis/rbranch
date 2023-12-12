@@ -13,6 +13,9 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+const WIDTH = 5
+const HEIGHT = 12
+
 type item string
 
 func (i item) FilterValue() string { return "" }
@@ -172,7 +175,7 @@ func main() {
 
 	gitOperation := getGitOperation(deleteFlag, rebaseFlag)
 
-	selectionList := list.New(selectionItems, itemDelegate{}, 5, 10)
+	selectionList := list.New(selectionItems, itemDelegate{}, WIDTH, HEIGHT)
 	selectionList.Title = "Select a branch to " + gitOperation + ":"
 
 	m := model{
