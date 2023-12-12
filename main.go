@@ -166,14 +166,14 @@ func main() {
 
 	var selectionItems []list.Item = buildSelectionListItems(branches)
 
-	selectionList := list.New(selectionItems, itemDelegate{}, 20, 15)
-	selectionList.Title = "Git Branches:"
-
 	deleteFlag := flag.Bool("d", false, "delete git branch")
 	rebaseFlag := flag.Bool("r", false, "rebase git branch")
 	flag.Parse()
 
 	gitOperation := getGitOperation(deleteFlag, rebaseFlag)
+
+	selectionList := list.New(selectionItems, itemDelegate{}, 5, 10)
+	selectionList.Title = "Select a branch to " + gitOperation + ":"
 
 	m := model{
 		list:      selectionList,
