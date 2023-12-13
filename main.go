@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/atotto/clipboard"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -15,6 +16,13 @@ import (
 
 const WIDTH = 5
 const HEIGHT = 12
+
+type CommandFlags struct {
+	Rebase bool
+	Merge  bool
+	Copy   bool
+	Delete bool
+}
 
 type item string
 
@@ -97,14 +105,24 @@ func (m model) View() string {
 }
 
 func executeGitCommand(operation string, branch string) string {
-	if operation == "delete" {
-		exec.Command("git", "branch", "-D", branch).Run()
-		return quitTextStyle.Render(fmt.Sprintln("deleted branch: \"" + branch))
+	if operation == "merge" {
+		exec.Command("git", "merge", branch).Run()
+		return quitTextStyle.Render(fmt.Sprintln("merged in branch: " + branch))
 	}
 
 	if operation == "rebase" {
 		exec.Command("git", "rebase", branch).Run()
 		return quitTextStyle.Render(fmt.Sprintln("rebased off branch: " + branch))
+	}
+
+	if operation == "copy" {
+		clipboard.WriteAll(branch)
+		return quitTextStyle.Render(fmt.Sprintln("copied branch name to clipboard: " + branch))
+	}
+
+	if operation == "delete" {
+		exec.Command("git", "branch", "-D", branch).Run()
+		return quitTextStyle.Render(fmt.Sprintln("deleted branch: \"" + branch))
 	}
 
 	exec.Command("git", "checkout", branch).Run()
@@ -140,18 +158,21 @@ func buildSelectionListItems(branches []string) []list.Item {
 	return items
 }
 
-func getGitOperation(deleteFlag *bool, rebaseFlag *bool) string {
-	if *deleteFlag && *rebaseFlag {
-		fmt.Println("fatal: you cannot perform a deletion and rebase at the same time")
-		os.Exit(1)
+func getGitOperation(commandFlags CommandFlags) string {
+	if commandFlags.Merge {
+		return "merge"
 	}
 
-	if *deleteFlag {
-		return "delete"
-	}
-
-	if *rebaseFlag {
+	if commandFlags.Rebase {
 		return "rebase"
+	}
+
+	if commandFlags.Copy {
+		return "copy"
+	}
+
+	if commandFlags.Delete {
+		return "delete"
 	}
 
 	return "checkout"
@@ -169,11 +190,16 @@ func main() {
 
 	var selectionItems []list.Item = buildSelectionListItems(branches)
 
-	deleteFlag := flag.Bool("d", false, "delete git branch")
-	rebaseFlag := flag.Bool("r", false, "rebase git branch")
+	var commandFlags CommandFlags
+
+	flag.BoolVar(&commandFlags.Delete, "d", false, "delete git branch")
+	flag.BoolVar(&commandFlags.Rebase, "r", false, "rebase git branch")
+	flag.BoolVar(&commandFlags.Merge, "m", false, "merge git branch")
+	flag.BoolVar(&commandFlags.Copy, "c", false, "copy git branch")
+
 	flag.Parse()
 
-	gitOperation := getGitOperation(deleteFlag, rebaseFlag)
+	gitOperation := getGitOperation(commandFlags)
 
 	selectionList := list.New(selectionItems, itemDelegate{}, WIDTH, HEIGHT)
 	selectionList.Title = "Select a branch to " + gitOperation + ":"
