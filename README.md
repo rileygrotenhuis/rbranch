@@ -56,12 +56,12 @@ To view a list of all available branches and select one of them to checkout, you
 rbranch
 ```
 
-### Delete a Branch
+### Merge a Branch
 
-To view a list of all available branches and select one of them to delete, you will need to append the deletion flag
+To view a list of all available branches and select one of them to merge in from, you will need to append the merge flag
 
 ```bash
-rbranch -d
+rbranch -m
 ```
 
 ### Rebase a Branch
@@ -70,4 +70,20 @@ To view a list of all available branches and select one of them to rebase off of
 
 ```bash
 rbranch -r
+```
+
+### Copy a Branch
+
+To view a list of all available branches and select one of them to copy to your clipboard, you will need to append the copy flag
+
+```bash
+rbranch -c
+```
+
+### Delete a Branch
+
+To view a list of all available branches and select one of them to delete, you will need to append the deletion flag
+
+```bash
+rbranch -d
 ```
