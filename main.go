@@ -18,7 +18,6 @@ const WIDTH = 5
 const HEIGHT = 12
 
 type CommandFlags struct {
-	Merge  bool
 	Copy   bool
 	Delete bool
 }
@@ -104,11 +103,6 @@ func (m model) View() string {
 }
 
 func executeGitCommand(operation string, branch string) string {
-	if operation == "merge" {
-		exec.Command("git", "merge", branch).Run()
-		return quitTextStyle.Render(fmt.Sprintln("merged in branch: " + branch))
-	}
-
 	if operation == "copy" {
 		clipboard.WriteAll(branch)
 		return quitTextStyle.Render(fmt.Sprintln("copied branch name to clipboard: " + branch))
@@ -153,10 +147,6 @@ func buildSelectionListItems(branches []string) []list.Item {
 }
 
 func getGitOperation(commandFlags CommandFlags) string {
-	if commandFlags.Merge {
-		return "merge"
-	}
-
 	if commandFlags.Copy {
 		return "copy"
 	}
@@ -183,7 +173,6 @@ func main() {
 	var commandFlags CommandFlags
 
 	flag.BoolVar(&commandFlags.Delete, "d", false, "delete git branch")
-	flag.BoolVar(&commandFlags.Merge, "m", false, "merge git branch")
 	flag.BoolVar(&commandFlags.Copy, "c", false, "copy git branch")
 
 	flag.Parse()

@@ -1,6 +1,6 @@
 # rbranch
 
-rbranch is a custom CLI tool built using Go that makes performing operations on git branches maybe about 2% easier.
+rbranch is a CLI tool built using Go and Bubbletea for those who are too lazy to type out those super long and annoying git branch names. Making your life maybe 2% easier, you can now simply use the `rbranch` command with a few additional flags to easily perform simple git branch operations.
 
 ## Prerequisites
 
@@ -54,14 +54,6 @@ To view a list of all available branches and select one of them to checkout, you
 
 ```bash
 rbranch
-```
-
-### Merge a Branch
-
-To view a list of all available branches and select one of them to merge in from, you will need to append the merge flag
-
-```bash
-rbranch -m
 ```
 
 ### Copy a Branch
