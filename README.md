@@ -64,14 +64,6 @@ To view a list of all available branches and select one of them to merge in from
 rbranch -m
 ```
 
-### Rebase a Branch
-
-To view a list of all available branches and select one of them to rebase off of, you will need to append the rebase flag
-
-```bash
-rbranch -r
-```
-
 ### Copy a Branch
 
 To view a list of all available branches and select one of them to copy to your clipboard, you will need to append the copy flag
